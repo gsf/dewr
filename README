@@ -1,0 +1,6 @@
+usage: dewr <command>
+
+commands:
+  build  build container
+  sh     run shell in container
+  test   run tests in container
