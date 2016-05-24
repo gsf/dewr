@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# dewr is a development wrapper
+
+REPO_NAME=$(basename $(git rev-parse --show-toplevel))
+
+dewr_build () {
+  docker build -t $REPO_NAME -f ci/Dockerfile .
+}
+
+dewr_sh () {
+  docker run -it -v $PWD:/opt/app --rm $REPO_NAME sh
+}
+
+dewr_test () {
+  docker run -v $PWD:/opt/app --rm $REPO_NAME ci/test
+}
+
+case "$1" in
+  build)
+    dewr_build
+    ;;
+  sh)
+    dewr_sh
+    ;;
+  test)
+    dewr_test
+    ;;
+  *)
+    cat <<EOF
+usage: dewr <command>
+
+commands:
+  build  build container
+  sh     run shell in container
+  test   run tests in container
+EOF
+    exit 1
+esac
