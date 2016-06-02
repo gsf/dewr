@@ -5,7 +5,7 @@
 IMAGE_NAME=$(basename $PWD)
 
 dewr_build() {
-  docker build -t $IMAGE_NAME -f ci/Dockerfile .
+  docker build -f ci/Dockerfile -t $IMAGE_NAME .
 }
 
 dewr_sh() {
