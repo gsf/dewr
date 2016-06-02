@@ -2,18 +2,18 @@
 #
 # dewr is a development wrapper
 
-REPO_NAME=$(basename $(git rev-parse --show-toplevel))
+IMAGE_NAME=$(basename $PWD)
 
 dewr_build () {
-  docker build -t $REPO_NAME -f ci/Dockerfile .
+  docker build -t $IMAGE_NAME -f ci/Dockerfile .
 }
 
 dewr_sh () {
-  docker run -it -v $PWD:/opt/app --rm $REPO_NAME sh
+  docker run -it -v $PWD:/opt/app --rm --net=host $IMAGE_NAME sh
 }
 
 dewr_test () {
-  docker run -v $PWD:/opt/app --rm $REPO_NAME ci/test
+  docker run -v $PWD:/opt/app --rm $IMAGE_NAME ci/test
 }
 
 case "$1" in
