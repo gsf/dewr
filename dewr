@@ -4,15 +4,15 @@
 
 IMAGE_NAME=$(basename $PWD)
 
-dewr_build () {
+dewr_build() {
   docker build -t $IMAGE_NAME -f ci/Dockerfile .
 }
 
-dewr_sh () {
+dewr_sh() {
   docker run -it -v $PWD:/opt/app --rm --net=host $IMAGE_NAME sh
 }
 
-dewr_test () {
+dewr_test() {
   docker run -v $PWD:/opt/app --rm $IMAGE_NAME ci/test
 }
 
