@@ -27,7 +27,7 @@ case "$1" in
     dewr_test
     ;;
   *)
-    cat <<EOF
+    cat <<EOF && exit 1
 usage: dewr <command>
 
 commands:
@@ -35,5 +35,4 @@ commands:
   sh     run shell in container
   test   run tests in container
 EOF
-    exit 1
 esac
