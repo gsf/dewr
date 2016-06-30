@@ -1,38 +1,41 @@
-#!/bin/sh
+#!/bin/sh -e
 #
 # dewr is a development wrapper
 
-IMAGE_NAME=$(basename "$PWD")
+IMAGE=$(basename "$PWD")
 
-dewr_build() {
-  docker build -f ci/Dockerfile -t "$IMAGE_NAME" .
+build() {
+  docker build -f ci/Dockerfile -t "$IMAGE" .
 }
 
-dewr_run() {
-  docker run -it -v "$PWD:/opt/app" --rm --net=host "$IMAGE_NAME" "$@"
-}
-
-dewr_test() {
-  dewr_run ci/test
+run() {
+  docker run --rm --net=host "$@"
 }
 
 case "$1" in
   build)
-    dewr_build
+    build
     ;;
   run)
-    dewr_run
+    shift
+    run "$IMAGE" "$@"
+    ;;
+  sh)
+    run -it -v $PWD:/opt/app "$IMAGE"
     ;;
   test)
-    dewr_test
+    build
+    run "$IMAGE" ci/test
     ;;
   *)
-    cat <<EOF && exit 1
+    cat <<EOF
 usage: dewr <command>
 
 commands:
   build  build container
-  run    run container
-  test   run tests in container
+  run    run [command] in container
+  sh     run default command in container with working directory mounted
+  test   build then run tests in container
 EOF
+    exit 1
 esac
