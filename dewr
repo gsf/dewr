@@ -2,7 +2,8 @@
 #
 # dewr is a development wrapper
 
-IMAGE=$(basename "$PWD")
+# For image name use full path but drop leading slash
+IMAGE=$(echo $PWD | cut -c2-)
 
 build() {
   docker build -f ci/Dockerfile -t "$IMAGE" .
