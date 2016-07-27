@@ -22,7 +22,7 @@ case "$1" in
     run "$IMAGE" "$@"
     ;;
   sh)
-    run -it -v $PWD:/opt/app "$IMAGE"
+    run -it -v $PWD:/opt/app "$IMAGE" && echo
     ;;
   test)
     build
