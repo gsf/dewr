@@ -2,5 +2,6 @@ usage: dewr <command>
 
 commands:
   build  build container
-  sh     run shell in container
-  test   run tests in container
+  run    run [command] in container
+  sh     run default command in container with working directory mounted
+  test   build then run tests in container
