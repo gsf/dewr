@@ -10,7 +10,7 @@ build() {
 }
 
 run() {
-  docker run --rm --net=host "$@"
+  docker run --rm --net=host --privileged "$@"
 }
 
 case "$1" in
