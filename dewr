@@ -3,7 +3,7 @@
 # dewr is a development wrapper
 
 # For image name use full path but drop leading slash
-IMAGE=$(echo $PWD | cut -c2-)
+IMAGE=$(echo $PWD | cut -c2- | tr '[:upper:]' '[:lower:]')
 
 build() {
   docker build -f ci/Dockerfile -t "$IMAGE" .
