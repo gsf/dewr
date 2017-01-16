@@ -1,7 +1,1 @@
-usage: dewr <command>
-
-commands:
-  build  build container
-  run    run [command] in container
-  sh     run default command in container with working directory mounted
-  test   build then run tests in container
+dewr is a development wrapper

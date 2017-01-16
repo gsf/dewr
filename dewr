@@ -3,40 +3,12 @@
 # dewr is a development wrapper
 
 # For image name use full path but drop leading slash
-IMAGE=$(echo $PWD | cut -c2- | tr '[:upper:]' '[:lower:]')
+IMAGE=$(pwd | cut -c2- | tr '[:upper:]' '[:lower:]')
 
-build() {
-  docker build -f ci/Dockerfile -t "$IMAGE" .
-}
-
-run() {
-  docker run --rm --net=host --privileged "$@"
-}
-
-case "$1" in
-  build)
-    build
-    ;;
-  run)
-    shift
-    run "$IMAGE" "$@"
-    ;;
-  sh)
-    run -it -v $PWD:/opt/app "$IMAGE" && echo
-    ;;
-  test)
-    build
-    run "$IMAGE" ci/test
-    ;;
-  *)
-    cat <<EOF
-usage: dewr <command>
-
-commands:
-  build  build container
-  run    run [command] in container
-  sh     run default command in container with working directory mounted
-  test   build then run tests in container
-EOF
-    exit 1
-esac
+docker build -t "$IMAGE" - < Dockerfile
+docker run --rm --net=host --privileged --interactive --tty \
+  --volume="$PWD:/opt/app" \
+  --volume="$HOME/.aws:/root/.aws" \
+  --volume="$HOME/.cache:/root/.cache" \
+  --volume=/var/run/docker.sock:/var/run/docker.sock \
+  "$IMAGE" && echo
