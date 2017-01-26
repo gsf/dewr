@@ -3,9 +3,10 @@
 # dewr is a development wrapper
 
 # For image name use full path but drop leading slash
+# Also docker image names must be lowercase
 IMAGE=$(pwd | cut -c2- | tr '[:upper:]' '[:lower:]')
 
-docker build -t "$IMAGE" - < Dockerfile
+docker build -t "$IMAGE" .
 docker run --rm --net=host --privileged --interactive --tty \
   --volume="$PWD:/opt/app" \
   --volume="$HOME/.aws:/root/.aws" \
