@@ -1,1 +1,7 @@
 dewr is a development wrapper
+
+Requires these lines in an Ubuntu-based Dockerfile:
+
+    RUN useradd -m --uid 1000 user
+    USER user
+    WORKDIR /app
